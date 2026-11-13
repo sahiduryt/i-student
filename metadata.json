@@ -1,0 +1,6 @@
+{
+  "name": "i student",
+  "description": "Next-generation social networking and educational learning platform — LEARN • SHARE • CONNECT",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,351 @@
+{
+  "entities": {
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Publicly discoverable student or teacher profile without PII",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "username": { "type": "string" },
+        "accountType": { "type": "string", "enum": ["student", "teacher"] },
+        "bio": { "type": "string" },
+        "school": { "type": "string" },
+        "educationLevel": { "type": "string" },
+        "location": { "type": "string" },
+        "websiteUrl": { "type": "string" },
+        "avatarUri": { "type": "string" },
+        "coverUri": { "type": "string" },
+        "accentColorHex": { "type": "string" },
+        "profileLayout": { "type": "string", "enum": ["editorial", "grid", "compact"] },
+        "interests": { "type": "array" },
+        "skills": { "type": "array" },
+        "languages": { "type": "array" },
+        "teacherExpertise": { "type": "string" },
+        "teacherIntro": { "type": "string" },
+        "hasSpecialTeacherBadge": { "type": "boolean" },
+        "isPrivateAccount": { "type": "boolean" },
+        "isDiscoverable": { "type": "boolean" },
+        "isSuspended": { "type": "boolean" },
+        "studyStreakDays": { "type": "integer" },
+        "dailyStudyGoalMins": { "type": "integer" },
+        "profileVisitsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fullName", "username", "accountType", "hasSpecialTeacherBadge", "isPrivateAccount", "isDiscoverable", "isSuspended", "createdAt", "updatedAt"]
+    },
+    "PrivateAccountInfo": {
+      "title": "PrivateAccountInfo",
+      "description": "Owner-only private PII and preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "gender": { "type": "string" },
+        "dateOfBirth": { "type": "string" },
+        "dobVisibility": { "type": "string" },
+        "contactPreference": { "type": "string" },
+        "notifyLikes": { "type": "boolean" },
+        "notifyComments": { "type": "boolean" },
+        "notifyFollows": { "type": "boolean" },
+        "notifyMessages": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "updatedAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Feed post, educational post, study note, or Knowledge Reel",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "authorAccountType": { "type": "string", "enum": ["student", "teacher"] },
+        "authorHasTeacherBadge": { "type": "boolean" },
+        "authorAvatarUri": { "type": "string" },
+        "postType": { "type": "string", "enum": ["text", "photo", "educational", "reel", "note", "repost"] },
+        "caption": { "type": "string" },
+        "subject": { "type": "string" },
+        "mediaUris": { "type": "array" },
+        "hashtags": { "type": "array" },
+        "locationTag": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["public", "followers", "private"] },
+        "isPinned": { "type": "boolean" },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "postType", "caption", "visibility", "isPinned", "likesCount", "commentsCount", "viewsCount", "createdAt", "updatedAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comment or nested reply on a post",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "parentCommentId": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "authorId", "authorName", "content", "createdAt"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "24-hour story or highlight item",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "storyType": { "type": "string", "enum": ["text", "photo"] },
+        "textContent": { "type": "string" },
+        "mediaUri": { "type": "string" },
+        "bgHex": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["public", "close_friends"] },
+        "isHighlight": { "type": "boolean" },
+        "highlightTitle": { "type": "string" },
+        "reactionsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "storyType", "visibility", "isHighlight", "reactionsCount", "createdAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Follower relationship or pending request",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "status": { "type": "string", "enum": ["accepted", "pending"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerId", "targetId", "status", "createdAt"]
+    },
+    "ChatThread": {
+      "title": "ChatThread",
+      "description": "1-on-1 or group chat conversation",
+      "type": "object",
+      "properties": {
+        "participantIds": { "type": "array" },
+        "title": { "type": "string" },
+        "isGroup": { "type": "boolean" },
+        "lastMessageText": { "type": "string" },
+        "lastSenderId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantIds", "isGroup", "lastMessageText", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Message within a chat thread",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "text": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["text", "image", "document", "voice"] },
+        "replyToText": { "type": "string" },
+        "reaction": { "type": "string" },
+        "deliveryState": { "type": "string", "enum": ["sent", "delivered", "seen"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "senderName", "participantIds", "text", "messageType", "deliveryState", "createdAt"]
+    },
+    "StudyCircle": {
+      "title": "StudyCircle",
+      "description": "Collaborative study group and shared notes space",
+      "type": "object",
+      "properties": {
+        "creatorId": { "type": "string" },
+        "name": { "type": "string" },
+        "subject": { "type": "string" },
+        "educationLevel": { "type": "string" },
+        "description": { "type": "string" },
+        "memberIds": { "type": "array" },
+        "isPublic": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorId", "name", "subject", "memberIds", "isPublic", "createdAt"]
+    },
+    "CircleNote": {
+      "title": "CircleNote",
+      "description": "Collaborative note inside a study circle",
+      "type": "object",
+      "properties": {
+        "circleId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["circleId", "authorId", "authorName", "title", "content", "createdAt", "updatedAt"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "Educational quiz created by a teacher or student",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "questionPrompt": { "type": "string" },
+        "options": { "type": "array" },
+        "correctIndex": { "type": "integer" },
+        "explanation": { "type": "string" },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "title", "subject", "questionPrompt", "options", "correctIndex", "isPublished", "createdAt"]
+    },
+    "StudyGoal": {
+      "title": "StudyGoal",
+      "description": "Personal study planner task and goal",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "targetMinutes": { "type": "integer" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "targetMinutes", "completed", "createdAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "User notification entry",
+      "type": "object",
+      "properties": {
+        "recipientId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "type": { "type": "string" },
+        "message": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientId", "senderId", "senderName", "type", "message", "isRead", "createdAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "Content or user moderation report",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["post", "user", "comment"] },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "targetId", "targetType", "reason", "status", "createdAt"]
+    },
+    "Challenge": {
+      "title": "Challenge",
+      "description": "Study challenge with target days and participants",
+      "type": "object",
+      "properties": {
+        "creatorId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "targetDays": { "type": "integer" },
+        "participantIds": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorId", "title", "subject", "targetDays", "participantIds", "isActive", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/public_profiles/{userId}": {
+      "schema": { "$ref": "#/entities/PublicProfile" },
+      "description": "Discoverable user profiles without PII"
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/PrivateAccountInfo" },
+      "description": "Owner-only PII and preferences"
+    },
+    "/users/{userId}/saved_posts/{postId}": {
+      "schema": "string",
+      "description": "Bookmarked post references private to user"
+    },
+    "/users/{userId}/liked_posts/{postId}": {
+      "schema": "string",
+      "description": "Private index of posts liked by the user"
+    },
+    "/users/{userId}/blocked_users/{blockedId}": {
+      "schema": "string",
+      "description": "Users blocked by the account owner"
+    },
+    "/users/{userId}/study_goals/{goalId}": {
+      "schema": { "$ref": "#/entities/StudyGoal" },
+      "description": "Personal daily study planner goals"
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "Real-time notifications for a user"
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "Social and educational posts and Knowledge Reels"
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/Comment" },
+      "description": "Comments and nested replies on a post"
+    },
+    "/posts/{postId}/likes/{userId}": {
+      "schema": "string",
+      "description": "Per-user like marker on a post"
+    },
+    "/stories/{storyId}": {
+      "schema": { "$ref": "#/entities/Story" },
+      "description": "24-hour stories and profile highlights"
+    },
+    "/follows/{followId}": {
+      "schema": { "$ref": "#/entities/Follow" },
+      "description": "Follower relationships and private follow requests"
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/ChatThread" },
+      "description": "Private 1-on-1 and group chat threads"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside a chat thread"
+    },
+    "/study_circles/{circleId}": {
+      "schema": { "$ref": "#/entities/StudyCircle" },
+      "description": "Collaborative study circles"
+    },
+    "/study_circles/{circleId}/notes/{noteId}": {
+      "schema": { "$ref": "#/entities/CircleNote" },
+      "description": "Collaborative notes inside a study circle"
+    },
+    "/quizzes/{quizId}": {
+      "schema": { "$ref": "#/entities/Quiz" },
+      "description": "Educational quizzes"
+    },
+    "/challenges/{challengeId}": {
+      "schema": { "$ref": "#/entities/Challenge" },
+      "description": "Academic and study streak challenges"
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/Report" },
+      "description": "Moderation reports reviewed by admins"
+    }
+  }
+}
