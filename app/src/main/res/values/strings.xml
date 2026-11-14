@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">i student</string>
     <string name="default_web_client_id" translatable="false">://googleusercontent.com</string>
-    <string name="firestore_database_id" translatable="false">(default)</string>
 </resources>
